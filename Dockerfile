@@ -1,27 +1,25 @@
-# Utiliza una imagen base de ASP.NET Core
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+# Utilizar la imagen oficial del SDK de .NET Core 8.0
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+
 WORKDIR /app
-EXPOSE 80
 
-# Utiliza una imagen base de SDK de .NET Core para compilar la aplicaciÃ³n
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
+# Copiar solo el archivo csproj para restaurar las dependencias
+COPY *.csproj ./
 
-# Copia los archivos del proyecto y restaura las dependencias
-COPY ["desafio-backend.csproj", "desafio-backend/"]
-RUN dotnet restore "desafio-backend/desafio-backend.csproj"
+RUN dotnet restore
 
-# Copia el resto de los archivos del proyecto y construye la aplicaciÃ³n
-COPY . .
-WORKDIR "/src/desafio-backend"
-RUN dotnet build "desafio-backend.csproj" -c Release -o /app/build
+# Copiar el resto de los archivos y construir la aplicación
+COPY . ./
+RUN dotnet publish -c Release -o out
 
-# Publica la aplicaciÃ³n
-FROM build AS publish
-RUN dotnet publish "desafio-backend.csproj" -c Release -o /app/publish
-
-# Configura la imagen final
-FROM base AS final
+# Etapa de imagen de tiempo de ejecución
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime-env
 WORKDIR /app
-COPY --from=publish /app/publish .
+
+# Copiar los artefactos de construcción de la etapa de construcción
+COPY --from=build-env /app/out .
+
+# Configurar el punto de entrada
 ENTRYPOINT ["dotnet", "desafio-backend.dll"]
+
+

@@ -20,13 +20,13 @@ namespace desafio_backend.Controllers
                 _mediator = mediator;
         }
         [HttpGet]
-        [Route("/GetUsuario")]
+        [Route("GetUsuario")]
         public async Task<List<UsuarioDto>> GetUsuario()
         {
             return await _mediator.Send(new GetUsuarioQuery());
         }
         [HttpGet]
-        [Route("/GetDetalleUsuario/{id}")]
+        [Route("GetDetalleUsuario/{id}")]
         public async Task<IActionResult> GetDetalleUsuario(int id)
         {
             try
@@ -40,7 +40,7 @@ namespace desafio_backend.Controllers
             }
         }
         [HttpGet]
-        [Route("/GetUsuarioFilter")]
+        [Route("GetUsuarioFilter")]
         public async Task<IActionResult> GetUsuarioFilter([FromQuery] UsuarioFilterDto filter)
         {
             try
@@ -55,7 +55,7 @@ namespace desafio_backend.Controllers
             }
         }
         [HttpPost]
-        [Route("/PostUsuario")]
+        [Route("PostUsuario")]
         public async Task<IActionResult> PostUsuario([FromBody] PostUsuarioCommand command)
         {
             try
@@ -69,7 +69,7 @@ namespace desafio_backend.Controllers
             }
         }
         [HttpPost]
-        [Route("/PostDetalleUsuario")]
+        [Route("PostDetalleUsuario")]
         public async Task<IActionResult> PostDetalleUsuario([FromBody] PostDetalleUsuario.PostDetalleUsuarioCommand command)
         {
             try
@@ -96,7 +96,7 @@ namespace desafio_backend.Controllers
             }
         }
         [HttpDelete]
-        [Route("/DeleteUsuario/{id}")]
+        [Route("DeleteUsuario/{id}")]
         public async Task<IActionResult> DeleteUsuario(int id)
         {
             try
@@ -132,7 +132,7 @@ namespace desafio_backend.Controllers
             }
         }
         [HttpGet]
-        [Route("/GetRoles")]
+        [Route("GetRoles")]
         public async Task<IActionResult> GetRoles()
         {
             try
@@ -145,7 +145,7 @@ namespace desafio_backend.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPut("/PutUsuario/{id}")]
+        [HttpPut("PutUsuario/{id}")]
         public async Task<IActionResult> PutUsuario(int id, [FromBody] PutUsuarioCommand command)
         {
             if (id != command.Id)
@@ -166,6 +166,11 @@ namespace desafio_backend.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [HttpGet]
+        [Route("Ping")]
+        public IActionResult Ping()
+        {
+            return Ok("Pong");
+        }
     }
 }
