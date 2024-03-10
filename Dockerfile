@@ -21,5 +21,3 @@ COPY --from=build-env /app/out .
 
 # Configurar el punto de entrada
 ENTRYPOINT ["dotnet", "desafio-backend.dll"]
-
-

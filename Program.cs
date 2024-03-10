@@ -40,6 +40,23 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
 builder.Services.AddScoped<IValidator<PostUsuarioCommand>, PostUsuarioCommandValidator>();
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+
+    // Agregar un pequeño retraso para permitir que la base de datos se inicie completamente
+    Thread.Sleep(5000); // Espera 5 segundos
+    try
+    {
+        dbContext.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error al migrar la base de datos: {ex.Message}");
+    }
+}
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
