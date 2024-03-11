@@ -109,3 +109,4 @@ C:\Users\Darwoft\Desktop\api final\desafio-backend\desafio-backend\obj\Debug\net
 C:\Users\Darwoft\Desktop\api final\desafio-backend\desafio-backend\obj\Debug\net8.0\ref\desafio-backend.dll
 C:\Users\Darwoft\Desktop\api final\desafio-backend\desafio-backend\bin\Debug\net8.0\Docker.DotNet.dll
 C:\Users\Darwoft\Desktop\api final\desafio-backend\desafio-backend\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\Darwoft\Desktop\api final\desafio-backend\desafio-backend\obj\Debug\net8.0\desafio-backend.sourcelink.json

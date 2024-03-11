@@ -172,5 +172,19 @@ namespace desafio_backend.Controllers
         {
             return Ok("Pong");
         }
+        [HttpPost]
+        [Route("PostRol")]
+        public async Task<IActionResult> PostRol([FromBody] PostRol.PostRolCommand command)
+        {
+            try
+            {
+                var postRol = await _mediator.Send(command);
+                return CreatedAtAction(nameof(PostRol), postRol);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }   
     }
 }

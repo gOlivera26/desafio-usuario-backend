@@ -3,6 +3,7 @@ using desafio_backend.Data;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using static desafio_backend.CQRS.Commands.PostRol;
 using static desafio_backend.CQRS.Commands.PostUsuario;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,6 +39,7 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddScoped<IValidator<PostUsuarioCommand>, PostUsuarioCommandValidator>();
+builder.Services.AddScoped<IValidator<PostRolCommand>, PostRolCommandValidator>();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
