@@ -71,9 +71,9 @@ namespace desafio_backend.CQRS.Commands
 
             public async Task<UsuarioDto> Handle(PutUsuarioCommand request, CancellationToken cancellationToken)
             {
-                await _validator.ValidateAndThrowAsync(request); // Aplicar validaciones
+                await _validator.ValidateAndThrowAsync(request); //Aplicar validaciones
 
-                var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Id == request.Id);
+                var usuario = await _context.Usuarios.Include(u => u.Rol).FirstOrDefaultAsync(u => u.Id == request.Id);
                 if (usuario == null)
                 {
                     throw new ArgumentException("El usuario especificado no existe.");
@@ -86,6 +86,8 @@ namespace desafio_backend.CQRS.Commands
                 await _context.SaveChangesAsync();
 
                 var usuarioDto = _mapper.Map<UsuarioDto>(usuario);
+                usuarioDto.Rol = usuario.Rol?.descripcion; //Mapear la descripción del rol
+
                 return usuarioDto;
             }
         }
