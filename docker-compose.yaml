@@ -20,3 +20,5 @@ services:
       POSTGRES_DB: desafio-trasus-arg
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: gustavo10
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d  # Monta el directorio init en el contenedor de la base de datos
