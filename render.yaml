@@ -1,0 +1,35 @@
+﻿services:
+  - name: api
+    envVars:
+      - key: ConnectionStrings__DefaultConnection
+        value: "Server=db;Port=5432;Database=desafio-trasus-arg;User Id=postgres;Password=gustavo10"
+    buildCommand: docker build -t api-image .
+    startCommand: docker run -p 8080:8080 --env-file .env api-image
+    healthCheck:
+      httpGet:
+        path: /
+        port: 8080
+    env: docker
+    privatePorts:
+      - 8080
+
+  - name: db
+    image: postgres
+    envVars:
+      - key: POSTGRES_DB
+        value: desafio-trasus-arg
+      - key: POSTGRES_USER
+        value: postgres
+      - key: POSTGRES_PASSWORD
+        value: gustavo10
+    ports:
+      - 5432
+    volumes:
+      - name: db-init
+        path: /docker-entrypoint-initdb.d
+
+volumes:
+  - name: db-init
+    mountPath: /docker-entrypoint-initdb.d
+    host:
+      sourcePath: ./sql
