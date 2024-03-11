@@ -49,7 +49,7 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
 
     // Agregar un pequeño retraso para permitir que la base de datos se inicie completamente
-    Thread.Sleep(5000); // Espera 5 segundos
+    Thread.Sleep(1000); // Espera 1 segundo
     try
     {
         dbContext.Database.Migrate();
