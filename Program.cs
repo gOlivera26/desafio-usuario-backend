@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using static desafio_backend.CQRS.Commands.PostRol;
 using static desafio_backend.CQRS.Commands.PostUsuario;
+using static desafio_backend.CQRS.Commands.PutUsuario;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,7 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
 });
 builder.Services.AddScoped<IValidator<PostUsuarioCommand>, PostUsuarioCommandValidator>();
 builder.Services.AddScoped<IValidator<PostRolCommand>, PostRolCommandValidator>();
+builder.Services.AddScoped<IValidator<PutUsuarioCommand>, PutUsuarioCommandValidator>();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

@@ -2,6 +2,7 @@
 using desafio_backend.CQRS.Commands;
 using desafio_backend.CQRS.Queries;
 using desafio_backend.Dto;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using static desafio_backend.CQRS.Commands.PostUsuario;
@@ -16,7 +17,7 @@ namespace desafio_backend.Controllers
     {
        private readonly IMediator _mediator;
         public UsuarioController(IMediator mediator)
-        {
+        {   
                 _mediator = mediator;
         }
         [HttpGet]
@@ -152,20 +153,27 @@ namespace desafio_backend.Controllers
             {
                 return BadRequest("El ID del usuario en la ruta no coincide con el ID proporcionado en el cuerpo.");
             }
+
             try
             {
-                await _mediator.Send(command);
-                return NoContent();
+                var usuarioDto = await _mediator.Send(command);
+                if (usuarioDto == null)
+                {
+                    return NotFound("El usuario especificado no existe.");
+                }
+
+                return Ok(usuarioDto);
             }
-            catch (ArgumentException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
+            catch (ValidationException ex)
             {
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocurrió un error interno en el servidor.");
+            }
         }
+
         [HttpGet]
         [Route("Ping")]
         public IActionResult Ping()
